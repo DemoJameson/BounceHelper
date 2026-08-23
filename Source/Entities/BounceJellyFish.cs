@@ -78,7 +78,7 @@ namespace Celeste.Mod.BounceHelper {
 		private float flashTimer = 0f;
 		private const float flashTime = 0.12f;
 
-		private Collider refillCollider = new Hitbox(20f, 17f, -12f, -17f);
+		private Collider refillCollider;
 
 		private Vector2 effectCentre {
 			get { return new Vector2(Center.X, Center.Y - 5f); }
@@ -108,7 +108,7 @@ namespace Celeste.Mod.BounceHelper {
 			}
 		}
 
-		public BounceJellyfish(Vector2 position, bool platform, bool soulBound, int baseDashCount, bool ezelMode, bool matchPlayerDash)
+		public BounceJellyfish(Vector2 position, bool platform, bool soulBound, int baseDashCount, bool ezelMode, bool matchPlayerDash, bool legacyRefillCollider)
 			: base(position) {
 			this.soulBound = soulBound;
 			this.baseDashCount = baseDashCount;
@@ -136,11 +136,12 @@ namespace Celeste.Mod.BounceHelper {
 			fallingSfx = new SoundSource();
 			Add(fallingSfx);
 			Add(new WindMover(WindMode));
+			refillCollider = legacyRefillCollider ? new Hitbox(20f, 17f, -12f, -17f) : new Hitbox(20f, 17f, -10f, -17f);
 		}
 
 		public BounceJellyfish(EntityData e, Vector2 offset)
 			: this(e.Position + offset, e.Bool("platform", true), e.Bool("soulBound", true), e.Int("baseDashCount", 1), 
-				  e.Bool("ezelMode"), e.Bool("matchPlayerDash")) {
+				  e.Bool("ezelMode"), e.Bool("matchPlayerDash"), e.Bool("legacyRefillCollider", true)) {
 		}
 
 		public override void Added(Scene scene) {

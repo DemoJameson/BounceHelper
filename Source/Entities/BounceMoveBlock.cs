@@ -61,6 +61,8 @@ namespace Celeste.Mod.BounceHelper {
 
 			private bool returning;
 
+			private bool forOneUseMoveBlock;
+
 			private float returnEase;
 
 			private float returnDuration;
@@ -100,7 +102,7 @@ namespace Celeste.Mod.BounceHelper {
 			public override void OnSquish(CollisionData data) {
 			}
 
-			public Debris Init(string spritePath, Vector2 position, Vector2 center, Vector2 returnTo) {
+			public Debris Init(string spritePath, Vector2 position, Vector2 center, Vector2 returnTo, bool forOneUseMoveBlock) {
 				if (!spriteInitialised) {
 					Add(sprite = new Image(Calc.Random.Choose(GFX.Game.GetAtlasSubtextures(spritePath + "/debris"))));
 					sprite.CenterOrigin();
@@ -115,6 +117,7 @@ namespace Celeste.Mod.BounceHelper {
 				sprite.Rotation = Calc.Random.NextAngle();
 				returning = false;
 				shaking = false;
+				this.forOneUseMoveBlock = forOneUseMoveBlock;
 				sprite.Scale.X = 1f;
 				sprite.Scale.Y = 1f;
 				sprite.Color = Color.White;
@@ -134,6 +137,9 @@ namespace Celeste.Mod.BounceHelper {
 						}
 						MoveH(speed.X * Engine.DeltaTime, onCollideH);
 						MoveV(speed.Y * Engine.DeltaTime, onCollideV);
+						if (forOneUseMoveBlock && Top > (base.Scene as Level).Bounds.Bottom + 32) {
+							RemoveSelf();
+						}
 					}
 					if (shaking && base.Scene.OnInterval(0.05f)) {
 						sprite.X = -1 + Calc.Random.Next(3);
@@ -505,7 +511,7 @@ namespace Celeste.Mod.BounceHelper {
 				for (int x = 0; (float)x < Width; x += 8) {
 					for (int y = 0; (float)y < Height; y += 8) {
 						Vector2 offset = new Vector2((float)x + 4f, (float)y + 4f);
-						Debris d = Engine.Pooler.Create<Debris>().Init(spritePath, Position + offset, Center, startPosition + offset);
+						Debris d = Engine.Pooler.Create<Debris>().Init(spritePath, Position + offset, Center, startPosition + offset, oneUse);
 						debris.Add(d);
 						Scene.Add(d);
 					}

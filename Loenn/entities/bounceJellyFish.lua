@@ -16,6 +16,9 @@ BounceHelperBounceJellyfish.fieldInformation = {
         editable = false
     }
 }
+BounceHelperBounceJellyfish.ignoredFields = {
+    "legacyRefillCollider"
+}
 BounceHelperBounceJellyfish.placements = {
     {
         name = "normal",
@@ -24,7 +27,8 @@ BounceHelperBounceJellyfish.placements = {
             soulBound = false,
             baseDashCount = 0,
             ezelMode = false,
-            matchPlayerDash = false
+            matchPlayerDash = false,
+            legacyRefillCollider = false
         }
     },
     {
@@ -34,7 +38,8 @@ BounceHelperBounceJellyfish.placements = {
             soulBound = false,
             baseDashCount = 1,
             ezelMode = false,
-            matchPlayerDash = false
+            matchPlayerDash = false,
+            legacyRefillCollider = false
         }
     },
     {
@@ -44,7 +49,8 @@ BounceHelperBounceJellyfish.placements = {
             soulBound = false,
             baseDashCount = 2,
             ezelMode = false,
-            matchPlayerDash = false
+            matchPlayerDash = false,
+            legacyRefillCollider = false
         }
     }
 }
